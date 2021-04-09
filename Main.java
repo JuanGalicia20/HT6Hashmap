@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
-/**
- * 
- */
 
 /**
- * @author juana
+ * @author Juan Galicia 20298
+ * @author Jonathan Espinoza 20022
+ * Programa de inventario y carrito de compras utilizando Hashmap, TreeMap y LinkedHashmap
+ * Y el patron de diseño Factory y uso de Profiler
  *
  */
 public class Main {
@@ -27,8 +27,12 @@ public class Main {
     private static Factory<String, Producto> structure = new Factory<String, Producto>();
     private static Controlador controlador;
 	
-
-	public static void main(String[] args) throws IOException {
+    /** 
+     * Metodo principal de ejecucion
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
         Map<String, Producto> inventario = null;
         Map<String, Producto> coleccionUsuario = null;
         ArrayList<String[]> datosF = readFile();
@@ -68,17 +72,57 @@ public class Main {
             			+ "3. Mostrar  los  datos  de los  productos del carrito.\n"
             			+ "4. Mostrar los  datos  de los productos del carrito, ordenados por categoria.\n"
                         + "5. Mostrar inventario.\n"
-                        + "6. Mostrar inventario ordenado por categoria.");
+                        + "6. Mostrar inventario ordenado por categoria.\n"+
+                        "7. Salir");
             opcion2=leer.next();
             controlador.loadInventory(datosF);
             switch(opcion2){
-                
+                case "1":
+                    System.out.println(controlador.agregarProducto());
+                    break;
+
+                case "2":
+                    Scanner l = new Scanner(System.in);
+                    System.out.println("Ingrese el nombre del producto");
+                    String name = l.nextLine();
+                    System.out.println(controlador.mostrarCat(name));
+                    break;
+
+                case "3":
+                    System.out.println(controlador.mostrarDatos());
+                    break;
+
+                case "4":
+                    System.out.println(controlador.mostrarColeccionOrdenada());
+                    break;
+
+                case "5":
+                    System.out.println(controlador.mostrarInventario());
+                    break;
+
+                case "6":
+                    System.out.println(controlador.mostrarInventarioOrdenado());
+                    break;
+
+                case "7":
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Debes ingresar un valor valido!");
+                    break;
             }
 
         }
 	}
 	
-	public static ArrayList<String[]> readFile() throws IOException
+	
+    /** 
+     * Metodo que se encarga de leer el archivo
+     * @return ArrayList<String[]> retorna los datos obtenidos
+     * @throws IOException
+     */
+    public static ArrayList<String[]> readFile() throws IOException
 	{
 		
 		System.out.println("Bienvenido, primero debe de seleccionar el archivo");
@@ -108,6 +152,7 @@ public class Main {
         {
             String[] l = data.get(i).split("\\|");
             l[1]=l[1].replaceAll("\\s", " ");
+            l[0]=l[0].replaceAll("\\s", " ");
             datosF.add(l);
         }
 
