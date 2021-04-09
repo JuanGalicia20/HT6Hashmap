@@ -25,16 +25,17 @@ public class Main {
     private static Scanner leer = new Scanner(System.in);
 
     private static Factory<String, Producto> structure = new Factory<String, Producto>();
-    private static Controlador controlador = new Controlador();
+    private static Controlador controlador;
 	
 
 	public static void main(String[] args) throws IOException {
         Map<String, Producto> inventario = null;
         Map<String, Producto> coleccionUsuario = null;
-		readFile();
+        ArrayList<String[]> datosF = readFile();
         boolean keep = true;
         boolean keep2 = false;
         String opcion="";
+        String opcion2="";
 
         while(keep){
             System.out.println("Bienvenido! Seleccione una opcion para continuar:\n"
@@ -49,6 +50,7 @@ public class Main {
                             case "3":
                                 inventario = structure.getMap(Integer.parseInt(opcion));
                                 coleccionUsuario = structure.getMap(Integer.parseInt(opcion));
+                                controlador = new Controlador(inventario, coleccionUsuario);
                                 keep2 = true;
                                 keep = false;
                                 break;
@@ -66,12 +68,17 @@ public class Main {
             			+ "3. Mostrar  los  datos  de los  productos del carrito.\n"
             			+ "4. Mostrar los  datos  de los productos del carrito, ordenados por categoria.\n"
                         + "5. Mostrar inventario.\n"
-                        + "6. ");
+                        + "6. Mostrar inventario ordenado por categoria.");
+            opcion2=leer.next();
+            controlador.loadInventory(datosF);
+            switch(opcion2){
+                
+            }
 
         }
 	}
 	
-	public static void readFile() throws IOException
+	public static ArrayList<String[]> readFile() throws IOException
 	{
 		
 		System.out.println("Bienvenido, primero debe de seleccionar el archivo");
@@ -103,6 +110,8 @@ public class Main {
             l[1]=l[1].replaceAll("\\s", " ");
             datosF.add(l);
         }
+
+        return datosF;
 	}
 
 }
